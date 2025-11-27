@@ -1,0 +1,10 @@
+# Export script output files
+*.txt
+
+# Common development files
+*.log
+.vs/
+.vscode/
+bin/
+obj/
+node_modules/
