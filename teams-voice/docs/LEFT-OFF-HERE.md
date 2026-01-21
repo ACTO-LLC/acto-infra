@@ -4,20 +4,19 @@
 
 ---
 
-## Current Status: WAITING FOR PROPAGATION
+## Current Status: TESTING TIMEOUT FORWARDING
 
-We configured **Shared Calling** for all users. Microsoft documentation states changes can take **up to 30 minutes** to propagate.
+Configuration is complete. Need to verify that calls forward to Eric's cell after all agents decline.
 
 ### To Test
-1. Wait 30 minutes from ~6:50 PM PST (around 7:20 PM PST)
-2. Fully quit and restart Teams
-3. Call **+1 657-549-3882**
-4. Press **1** for Sales
-5. Your Teams should ring
+1. Call **+1 657-549-3882**
+2. Press **1** for Sales (or **2** for Support)
+3. Let all 3 agents ring for 15 seconds each (don't answer)
+4. After 45 seconds total, call should forward to **+1 949-296-5389**
 
 ---
 
-## What Was Configured Today
+## Final Configuration (January 20, 2026)
 
 ### 1. Service Principal for Automation (No More Interactive Auth!)
 - **App ID:** `11b1509b-d570-4d3a-b46e-032215808864`
@@ -43,49 +42,29 @@ Connect-MicrosoftTeams -ApplicationId "11b1509b-d570-4d3a-b46e-032215808864" `
 - Resource Account: Auto Attendant (`autoattendant@a-cto.com`)
 - Assigned to: Eric, Quentin, Sue
 
-### 4. Auto Attendant Menu Swapped
-- **Press 1 / "sales"** → Sales Queue
-- **Press 2 / "support"** → Support Queue
+### 4. Auto Attendant Menu
+- **Press 1 / "sales"** -> Sales Queue
+- **Press 2 / "support"** -> Support Queue
 - Greeting: "Thanks for calling A. C. T. O."
 
 ### 5. Sales Queue Configuration
-- **Routing:** Serial (Eric → Quentin → Sue)
+- **Routing:** Serial (Quentin -> Eric -> Sue)
 - **Agent Alert Time:** 15 seconds each
-- **Presence-Based Routing:** Disabled
-- **Conference Mode:** Disabled
-- **Timeout:** 5 minutes → forwards to +1 949-296-5389
+- **Timeout:** 45 seconds -> forwards to +1 949-296-5389
+
+### 6. Support Queue Configuration
+- **Routing:** Serial (Eric -> Quentin -> Sue)
+- **Agent Alert Time:** 15 seconds each
+- **Timeout:** 45 seconds -> forwards to +1 949-296-5389
 
 ---
 
-## If Calls Still Don't Ring After 30 Minutes
+## Important Limitations Discovered
 
-### Check in Teams Client
-1. Go to **Settings** → **Calls**
-2. Look for the shared number (+1 657-549-3882)
-3. If not visible, the policy hasn't propagated yet
-
-### Verify via PowerShell
-```powershell
-# Check user configuration
-Get-CsOnlineUser -Identity "ehalsey@a-cto.com" | Select-Object DisplayName, EnterpriseVoiceEnabled, TeamsSharedCallingRoutingPolicy
-
-# Should show:
-# EnterpriseVoiceEnabled: True
-# TeamsSharedCallingRoutingPolicy: ACTO-SharedCalling
-```
-
-### If Still Not Working
-1. Try signing out of Teams completely and back in
-2. Check Teams Admin Center for any errors: https://admin.teams.microsoft.com/voice/call-queues
-3. Verify the Sales Queue shows all 3 agents
-
----
-
-## Key Documentation Links
-
-- [Plan for Shared Calling](https://learn.microsoft.com/en-us/microsoftteams/shared-calling-plan)
-- [Configure Shared Calling](https://learn.microsoft.com/en-us/microsoftteams/shared-calling-setup)
-- [Plan for Auto attendants and Call queues](https://learn.microsoft.com/en-us/microsoftteams/plan-auto-attendant-call-queue)
+| Setting | Limitation |
+|---------|------------|
+| Agent Alert Time | Minimum 15 seconds (max 180s) |
+| Timeout Threshold | Must be multiple of 15 seconds |
 
 ---
 
@@ -98,3 +77,11 @@ Get-CsOnlineUser -Identity "ehalsey@a-cto.com" | Select-Object DisplayName, Ente
 | +1 657-203-8478 | Unassigned |
 | +1 657-203-8479 | Unassigned |
 | +1 657-549-5669 | Unassigned |
+
+---
+
+## Key Documentation Links
+
+- [Plan for Shared Calling](https://learn.microsoft.com/en-us/microsoftteams/shared-calling-plan)
+- [Configure Shared Calling](https://learn.microsoft.com/en-us/microsoftteams/shared-calling-setup)
+- [Plan for Auto attendants and Call queues](https://learn.microsoft.com/en-us/microsoftteams/plan-auto-attendant-call-queue)

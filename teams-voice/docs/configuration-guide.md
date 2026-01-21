@@ -40,7 +40,7 @@ flowchart TD
     F --> G[Eric - 15s]
     G -->|No answer| H[Quentin - 15s]
     H -->|No answer| I[Sue - 15s]
-    I -->|Timeout 60s| J[Forward to Eric Cell<br/>+1 949-296-5389]
+    I -->|Timeout 45s| J[Forward to Eric Cell<br/>+1 949-296-5389]
 ```
 
 ### After Hours
@@ -61,7 +61,7 @@ flowchart TD
 | **Routing Method** | Serial (sequential) |
 | **Agent Alert Time** | 15 seconds |
 | **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
-| **Timeout** | 60 seconds |
+| **Timeout** | 45 seconds |
 | **Timeout Action** | Forward to +1 949-296-5389 |
 | **Presence-Based Routing** | Disabled |
 | **Conference Mode** | Disabled |
@@ -74,7 +74,7 @@ flowchart TD
 | **Routing Method** | Serial (sequential) |
 | **Agent Alert Time** | 15 seconds |
 | **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
-| **Timeout** | 60 seconds |
+| **Timeout** | 45 seconds |
 | **Timeout Action** | Forward to +1 949-296-5389 |
 | **Presence-Based Routing** | Disabled |
 | **Conference Mode** | Disabled |
