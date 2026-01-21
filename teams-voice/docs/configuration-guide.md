@@ -26,30 +26,18 @@ This document covers the Teams Phone System configuration for A CTO, LLC, includ
 
 ### Call Flow
 
-```
-Caller dials +1 657-549-3882
-        │
-        ▼
-   ACTO Attendant
-   "Thanks for calling A CTO"
-        │
-        ▼
-   ┌─────────────────────────────────────────┐
-   │  Press 1 / "Sales"  │  Press 2 / "Support"  │
-   └─────────────────────────────────────────┘
-        │                           │
-        ▼                           ▼
-   Sales Queue              Support Queue
-                                    │
-                              Serial Routing:
-                              ├─ Eric (15s)
-                              ├─ Quentin (15s)
-                              └─ Sue (15s)
-                                    │
-                              Timeout (5 min)
-                                    │
-                              Forward to Eric
-                              +1 949-296-5389
+```mermaid
+flowchart TD
+    A[📞 Caller dials +1 657-549-3882] --> B[ACTO Attendant]
+    B --> C{"Thanks for calling A. C. T. O.<br/>Press 1 for Sales<br/>Press 2 for Support"}
+
+    C -->|Press 1 / Say 'Sales'| D[Sales Queue]
+    C -->|Press 2 / Say 'Support'| E[Support Queue]
+
+    D --> F[Eric - 15s]
+    F -->|No answer| G[Quentin - 15s]
+    G -->|No answer| H[Sue - 15s]
+    H -->|Timeout 5 min| I[Forward to Eric<br/>+1 949-296-5389]
 ```
 
 ### After Hours
