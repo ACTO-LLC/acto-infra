@@ -50,12 +50,12 @@ Connect-MicrosoftTeams -ApplicationId "11b1509b-d570-4d3a-b46e-032215808864" `
 ### 5. Sales Queue Configuration
 - **Routing:** Serial (Quentin -> Eric -> Sue)
 - **Agent Alert Time:** 15 seconds each
-- **Timeout:** 45 seconds -> forwards to +1 949-296-5389
+- **Timeout:** 45 seconds -> forwards to Eric (Teams voicemail)
 
 ### 6. Support Queue Configuration
 - **Routing:** Serial (Eric -> Quentin -> Sue)
 - **Agent Alert Time:** 15 seconds each
-- **Timeout:** 45 seconds -> forwards to +1 949-296-5389
+- **Timeout:** 45 seconds -> forwards to Eric (Teams voicemail)
 
 ---
 
