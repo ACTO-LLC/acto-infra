@@ -34,10 +34,13 @@ flowchart TD
     C -->|Press 1 / Say 'Sales'| D[Sales Queue]
     C -->|Press 2 / Say 'Support'| E[Support Queue]
 
-    D --> F[Eric - 15s]
-    F -->|No answer| G[Quentin - 15s]
-    G -->|No answer| H[Sue - 15s]
-    H -->|Timeout 5 min| I[Forward to Eric<br/>+1 949-296-5389]
+    D --> F[Serial Routing]
+    E --> F
+
+    F --> G[Eric - 15s]
+    G -->|No answer| H[Quentin - 15s]
+    H -->|No answer| I[Sue - 15s]
+    I -->|Timeout 60s| J[Forward to Eric Cell<br/>+1 949-296-5389]
 ```
 
 ### After Hours
@@ -58,10 +61,25 @@ flowchart TD
 | **Routing Method** | Serial (sequential) |
 | **Agent Alert Time** | 15 seconds |
 | **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
-| **Timeout** | 300 seconds (5 minutes) |
+| **Timeout** | 60 seconds |
 | **Timeout Action** | Forward to +1 949-296-5389 |
-| **Presence-Based Routing** | Enabled |
-| **Conference Mode** | Enabled |
+| **Presence-Based Routing** | Disabled |
+| **Conference Mode** | Disabled |
+
+## Support Queue Configuration
+
+| Setting | Value |
+|---------|-------|
+| **Identity** | 18dada23-3862-4469-bc96-ea666217243b |
+| **Routing Method** | Serial (sequential) |
+| **Agent Alert Time** | 15 seconds |
+| **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
+| **Timeout** | 60 seconds |
+| **Timeout Action** | Forward to +1 949-296-5389 |
+| **Presence-Based Routing** | Disabled |
+| **Conference Mode** | Disabled |
+
+---
 
 ### PowerShell Commands Used
 
