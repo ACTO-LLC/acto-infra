@@ -29,7 +29,7 @@ This document covers the Teams Phone System configuration for A CTO, LLC, includ
 ```mermaid
 flowchart TD
     A[📞 Caller dials +1 657-549-3882] --> B[ACTO Attendant]
-    B --> C{"Thanks for calling A. C. T. O.<br/>Press 1 for Sales<br/>Press 2 for Support"}
+    B --> C{"Thanks for calling A. C. T. O.<br/>Press 1 for Sales<br/>Press 2 for Support<br/>Or say a name"}
 
     C -->|Press 1 / Say 'Sales'| D[Sales Queue]
     C -->|Press 2 / Say 'Support'| E[Support Queue]
@@ -44,7 +44,7 @@ flowchart TD
     I -->|Timeout 45s| J[Forward to Eric<br/>Teams Voicemail]
 ```
 
-**Note:** Dial-by-name is enabled but not advertised in the greeting. Callers who know a person's name can say it to be routed directly.
+**Note:** Dial-by-name is enabled. Callers can say a name to be routed directly, but no directory listing is provided.
 
 ### After Hours
 
