@@ -66,7 +66,7 @@ flowchart TD
 | **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
 | **Timeout** | 45 seconds |
 | **Timeout Action** | Forward to Eric (Teams voicemail) |
-| **Presence-Based Routing** | Disabled |
+| **Presence-Based Routing** | Enabled |
 | **Conference Mode** | Disabled |
 
 ## Support Queue Configuration
@@ -79,7 +79,7 @@ flowchart TD
 | **Agents (in order)** | 1. Eric Halsey, 2. Quentin Halsey, 3. Sue Halsey |
 | **Timeout** | 45 seconds |
 | **Timeout Action** | Forward to Eric (Teams voicemail) |
-| **Presence-Based Routing** | Disabled |
+| **Presence-Based Routing** | Enabled |
 | **Conference Mode** | Disabled |
 
 ---

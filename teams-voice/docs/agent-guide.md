@@ -36,7 +36,7 @@ Calls ring each person for **15 seconds** before moving to the next:
 3. Sue (15 seconds)
 4. → Voicemail (after 45 seconds total)
 
-**You don't need to be "available" in Teams** - calls will ring regardless of your presence status.
+**Your Teams status matters!** If you're set to Away, Busy, DND, or Offline, calls will skip you and go to the next person. Set yourself to **Available** when you're ready to take calls.
 
 ---
 
