@@ -45,6 +45,7 @@ Connect-MicrosoftTeams -ApplicationId "11b1509b-d570-4d3a-b46e-032215808864" `
 ### 4. Auto Attendant Menu
 - **Press 1 / "sales"** -> Sales Queue
 - **Press 2 / "support"** -> Support Queue
+- **Say a name** -> Direct to Eric, Quentin, or Sue (not advertised)
 - Greeting: "Thanks for calling A. C. T. O."
 
 ### 5. Sales Queue Configuration

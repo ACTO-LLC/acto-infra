@@ -33,6 +33,7 @@ flowchart TD
 
     C -->|Press 1 / Say 'Sales'| D[Sales Queue]
     C -->|Press 2 / Say 'Support'| E[Support Queue]
+    C -->|Say 'Eric/Quentin/Sue'| K[Direct to Person]
 
     D --> F[Serial Routing]
     E --> F
@@ -42,6 +43,8 @@ flowchart TD
     H -->|No answer| I[Sue - 15s]
     I -->|Timeout 45s| J[Forward to Eric<br/>Teams Voicemail]
 ```
+
+**Note:** Dial-by-name is enabled but not advertised in the greeting. Callers who know a person's name can say it to be routed directly.
 
 ### After Hours
 
