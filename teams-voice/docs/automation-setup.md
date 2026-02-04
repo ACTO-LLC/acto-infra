@@ -66,7 +66,15 @@ The service principal has the following directory roles:
 | API | Permission | Type |
 |-----|------------|------|
 | Office 365 Exchange Online | `Exchange.ManageAsApp` | Application |
-| Microsoft Graph | Various | Application |
+| Microsoft Graph | `User.Read.All` | Application |
+| Microsoft Graph | `User.ReadWrite.All` | Application |
+| Microsoft Graph | `Group.Read.All` | Application |
+| Microsoft Graph | `Directory.Read.All` | Application |
+| Microsoft Graph | `Organization.Read.All` | Application |
+| Microsoft Graph | `Team.ReadBasic.All` | Application |
+| Microsoft Graph | `TeamSettings.Read.All` | Application |
+| Microsoft Graph | `Reports.Read.All` | Application |
+| Microsoft Graph | `CallRecords.Read.All` | Application |
 
 ### Certificate Storage
 

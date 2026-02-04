@@ -36,7 +36,15 @@ Calls ring each person for **15 seconds** before moving to the next:
 3. Sue (15 seconds)
 4. → Voicemail (after 45 seconds total)
 
-**Your Teams status matters!** If you're set to Away, Busy, DND, or Offline, calls will skip you and go to the next person. Set yourself to **Available** when you're ready to take calls.
+**Your Teams status matters!** Presence-based routing is enabled on both queues. This means calls will **only ring you when your status is Available**. Any other status — Away, Busy, In a call, Do Not Disturb, Offline, Be Right Back, or Out of Office — causes the queue to silently skip you and ring the next person.
+
+This is **not configurable per-status** (e.g., you can't allow Away but block DND). It's all or nothing: Available = calls ring, anything else = calls skip.
+
+**What this means in practice:**
+- Set yourself to **Available** when you're ready to take calls
+- If you step away briefly, calls will skip to the next agent — this is by design
+- If you're on a call, the queue will also skip you (but you won't get a busy signal since BusyOnBusy is disabled)
+- If no agents are Available, calls go to voicemail after the timeout
 
 ---
 
