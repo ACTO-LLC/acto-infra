@@ -22,10 +22,14 @@
 - [x] TXT verification record added (`MS=ms82932474`)
 - [x] Domain verified in M365
 
-### 2. Email Alias Created ✅
-- [x] `quentin@a-cto.co` added as alias to Quentin Halsey's mailbox
-- Primary: `quentin.halsey@a-cto.com`
-- Alias: `quentin@a-cto.co` (for Apollo.io outreach)
+### 2. Standalone Mailbox Created ✅
+- [x] ~~`quentin@a-cto.co` originally added as alias to Quentin Halsey's mailbox~~ (removed — Apollo.io requires a standalone mailbox for M365)
+- [x] Alias removed from `quentin.halsey@a-cto.com`
+- [x] Standalone Entra ID user created: `quentin@a-cto.co` (display: "Quentin Halsey (Outreach)")
+- [x] Exchange Online Plan 1 license assigned
+- User ID: `e8dcdd8b-39be-46e9-958a-f250a9397eb9`
+- License: Exchange Online Plan 1 (`EXCHANGESTANDARD`)
+- Password must be changed on first sign-in
 
 ### 3. DNS Records (NameCheap) ✅
 - [x] TXT verification record
@@ -53,7 +57,7 @@
 2. Click **Email** > **Mailboxes**
 3. Click **Add Mailbox**
 4. Select **Microsoft 365 / Outlook**
-5. Sign in with `eric@a-cto.co` credentials
+5. Sign in with `quentin@a-cto.co` credentials
 6. Grant Apollo.io permissions to send on your behalf
 
 #### Configure Sending Settings
