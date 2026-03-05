@@ -9,6 +9,9 @@ parameters.json
 *.log
 .vs/
 .vscode/
+.azure/
+.env
+.envrc
 bin/
 obj/
 node_modules/
