@@ -111,7 +111,7 @@ graph TD
 | 192.168.1.106 | EH-HP-DT-01 | 48:9E:BD:A0:4F:FF | Desktop (Ethernet) |
 | 192.168.1.107 | EH-HP-DT-01 | 38:D5:7A:8A:C5:77 | Desktop (WiFi) |
 | 192.168.1.123 | -- | 68:4E:05:7A:91:1A | Unknown |
-| 192.168.1.165 | -- | 5C:C5:63:F1:B7:26 | Unknown |
+| 192.168.1.165 | Formuler-Z10 | 5C:C5:63:F1:B7:26 | Formuler Z10 streaming box |
 | 192.168.1.182 | -- | CC:95:D7:AB:65:71 | Unknown |
 | 192.168.1.187 | hplt-001 | 58:02:05:47:B3:4A | HP Laptop |
 | 192.168.1.188 | -- | 28:24:C9:64:54:DC | Unknown |
@@ -143,6 +143,16 @@ graph TD
 | SSH | Port 22 (root, from LAN side) |
 | Uplink | Ethernet to Netgear R7000P (passes through to EdgeRouter) |
 | Purpose | Workaround for Netgear AP client isolation — devices needing local communication connect here |
+
+### Mango Static DHCP Mappings
+
+| Hostname | IP | MAC |
+|----------|----|-----|
+| EH-HP-DT-01 | 192.168.8.10 | 38:D5:7A:8A:C5:77 |
+| hplt-001 | 192.168.8.11 | 58:02:05:47:B3:4A |
+| Eric-s-S22 | 192.168.8.12 | AA:3F:CA:4E:60:6D |
+| SM-L315U (Watch) | 192.168.8.13 | 8E:52:5F:EF:B4:6F |
+| Formuler-Z10 | 192.168.8.14 | 5C:C5:63:F1:B7:26 |
 
 ## Desktop Details (EH-HP-DT-01)
 
