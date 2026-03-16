@@ -176,13 +176,10 @@ graph TD
 
 ## Known Issues
 
-### Netgear R7000P AP/Client Isolation
-The R7000P appears to enforce WiFi client isolation with no exposed setting to disable it. This prevents:
-- WiFi-to-WiFi device communication (laptop cannot RDP to desktop on WiFi)
-- WiFi devices from discovering/connecting to the Samsung Watch 7
-- Wired-to-WiFi works fine (laptop can RDP to desktop on Ethernet at .106)
+### ~~Netgear R7000P AP/Client Isolation~~ (Resolved)
+The R7000P enforces WiFi client isolation with no exposed setting to disable it. This prevented WiFi-to-WiFi device communication (RDP, remote debugging, Samsung Watch discovery).
 
-**Workaround:** GL.iNet GL-MT300N-V2 (Mango) travel router connected via Ethernet to the Netgear R7000P (which passes through to the EdgeRouter since it's in AP/switch mode). Devices that need local communication (laptop, watch, desktop WiFi) connect to the Mango's WiFi instead. Internet traffic is forwarded upstream through the EdgeRouter.
+**Resolution:** GL.iNet GL-MT300N-V2 (Mango) travel router deployed at 192.168.1.50, connected via Ethernet through the Netgear to the EdgeRouter. Devices needing local communication connect to the Mango's WiFi (GL-MT300N-V2-917) instead.
 
 ### WiFi Network Profile
 When the desktop connects via WiFi, Windows may classify the connection as **Public**, which blocks inbound RDP. Fix:
