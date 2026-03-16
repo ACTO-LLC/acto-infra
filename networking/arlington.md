@@ -10,7 +10,7 @@ graph TD
     MODEM["Spectrum Modem<br/>(Bridge Mode)"]
     EDGEMAX["Ubiquiti EdgeRouter X (ER-e50)<br/>Hostname: ubnt<br/>Firmware: v2.0.9-hotfix.7<br/>Gateway: 192.168.1.1<br/>DHCP: 192.168.1.38-243<br/>DNS: 192.168.1.1"]
     NETGEAR["Netgear R7000P<br/>(AP Mode)<br/>SSID: NETGEAR89-5G<br/>IP: 192.168.1.47"]
-    MANGO["GL.iNet GL-MT300N-V2 (Mango)<br/>OpenWrt Travel Router<br/>2.4GHz Only<br/>(Planned)"]
+    MANGO["GL.iNet GL-MT300N-V2 (Mango)<br/>OpenWrt Travel Router<br/>2.4GHz Only<br/>SSID: GL-MT300N-V2-917<br/>IP: 192.168.1.50"]
 
     DESKTOP["EH-HP-DT-01<br/>HP Pavilion Desktop TP01-2xxx<br/>Windows 11 Pro<br/>192.168.1.106 (Ethernet)"]
     LAPTOP["hplt-001<br/>Laptop<br/>192.168.1.187 (WiFi)"]
@@ -55,7 +55,7 @@ graph TD
     style ESP fill:#f5d060,stroke:#333,color:#000
 ```
 
-> **Note:** Solid lines represent wired (Ethernet) connections. Dashed lines represent WiFi connections. The GL.iNet Mango is a planned addition to resolve AP isolation issues on the Netgear R7000P.
+> **Note:** Solid lines represent wired (Ethernet) connections. Dashed lines represent WiFi connections. The GL.iNet Mango resolves AP isolation issues on the Netgear R7000P.
 
 ## EdgeRouter X (Gateway)
 
@@ -89,6 +89,7 @@ graph TD
 | Hostname | IP | MAC |
 |----------|----|-----|
 | DESKTOP-J6LTNGH | 192.168.1.42 | 40:8D:5C:5E:FC:09 |
+| GL-MT300N-V2 | 192.168.1.50 | 94:83:C4:86:89:17 |
 | bedroom-tv | 192.168.1.87 | 0C:8B:7D:B6:7C:59 |
 
 ## DHCP Leases (Current)
@@ -97,6 +98,7 @@ graph TD
 |------------|----------|-------------|-------|
 | 192.168.1.42 | DESKTOP-J6LTNGH | 40:8D:5C:5E:FC:09 | Static mapping |
 | 192.168.1.47 | R7000P | 28:80:88:1F:61:FA | Netgear AP |
+| 192.168.1.50 | GL-MT300N-V2 | 94:83:C4:86:89:17 | Mango travel router (static mapping) |
 | 192.168.1.48 | LIFX Bulb | D0:73:D5:00:6D:22 | Smart light |
 | 192.168.1.49 | Livingroom | C8:3A:6B:AA:B3:68 | IoT device |
 | 192.168.1.52 | -- | AC:63:BE:11:ED:DE | Unknown |
@@ -124,6 +126,23 @@ graph TD
 | MAC | 28:80:88:1F:61:FA |
 | SSID | NETGEAR89-5G |
 | Uplink | Ethernet to EdgeRouter switch0 |
+
+## GL.iNet GL-MT300N-V2 (Mango)
+
+| Property | Value |
+|----------|-------|
+| Model | GL.iNet GL-MT300N-V2 (Mango) |
+| Firmware | GL.iNet v4.3.28 (OpenWrt) |
+| WAN IP | 192.168.1.50 (static DHCP from EdgeRouter) |
+| LAN IP | 192.168.8.1 |
+| MAC | 94:83:C4:86:89:17 |
+| SSID | GL-MT300N-V2-917 |
+| WiFi Security | WPA2-PSK |
+| WiFi Band | 2.4GHz only |
+| Management | http://192.168.8.1 (from LAN side) |
+| SSH | Port 22 (root, from LAN side) |
+| Uplink | Ethernet to Netgear R7000P (passes through to EdgeRouter) |
+| Purpose | Workaround for Netgear AP client isolation — devices needing local communication connect here |
 
 ## Desktop Details (EH-HP-DT-01)
 
