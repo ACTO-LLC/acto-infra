@@ -38,6 +38,18 @@ The session does not persist between `pwsh -Command` invocations. When running m
 | Support Queue | `18dada23-3862-4469-bc96-ea666217243b` |
 | Main Phone Number | (657) 549-3882 |
 
+## Service Principal Permission Limitations
+
+The service principal can **read** Exchange mailbox data (rules, folders, leases) but **cannot write** to individual mailboxes. Specifically:
+
+- `Get-InboxRule`, `Get-Mailbox`, `Get-MailboxFolderStatistics` — **work**
+- `New-InboxRule`, `New-MailboxFolder` — **fail** with "Cannot open mailbox"
+- Graph API `/users/{id}/mailFolders` and `/messageRules` — **fail** with "ErrorAccessDenied"
+
+**Root cause:** The app registration lacks the `full_access_as_app` Exchange role and `Mail.ReadWrite` Graph permission. See [GitHub issue #12](../../issues/12) to track granting these.
+
+**Workaround:** For per-mailbox write operations (inbox rules, folder creation), generate the PowerShell command and have the user run it from their own authenticated session.
+
 ## Project Structure
 
 - `teams-voice/` — Teams Phone System config (auto attendants, call queues, voice routing)
