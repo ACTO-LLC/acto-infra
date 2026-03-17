@@ -38,13 +38,14 @@ The session does not persist between `pwsh -Command` invocations. When running m
 | Support Queue | `18dada23-3862-4469-bc96-ea666217243b` |
 | Main Phone Number | (657) 549-3882 |
 
-## Service Principal Permission Limitations
+## Service Principal Permissions
 
-The service principal has **`full_access_as_app`** Exchange role, enabling both read and write operations on mailboxes via EXO PowerShell:
+The service principal has the following permissions for mailbox operations:
 
-- `Get-InboxRule`, `Get-Mailbox`, `Get-MailboxFolderStatistics` — **work**
-- `New-InboxRule`, `New-MailboxFolder` — **work** (via EXO PowerShell)
-- Graph API `/users/{id}/mailFolders` and `/messageRules` — **fail** (needs `Mail.ReadWrite` Graph permission, requires Global Admin consent — see [#12](../../issues/12))
+- **Exchange:** `full_access_as_app` role, `Exchange.ManageAsApp` — EXO PowerShell read commands work (`Get-InboxRule`, `Get-Mailbox`, etc.)
+- **Graph API:** `Mail.ReadWrite`, `MailboxSettings.ReadWrite` — enables inbox rule creation, mail folder management, and mailbox settings via Graph
+
+**Important:** EXO PowerShell write commands (`New-InboxRule -Mailbox`) do NOT work because `ApplicationImpersonation` is deprecated. Use **Graph API** (via `Microsoft.Graph.Mail` module) for mailbox write operations instead. See `scripts/create-inbox-rule.ps1` for an example.
 
 ## Project Structure
 
