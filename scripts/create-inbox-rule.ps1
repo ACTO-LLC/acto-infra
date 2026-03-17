@@ -1,9 +1,14 @@
 # Create "Low Priority - Auto File" inbox rules via Graph API
 # Uses Mail.ReadWrite + MailboxSettings.ReadWrite Graph permissions
 #
-# NOTE: Graph API inbox rules AND conditions together, so we split
-# sender-based and subject-based matching into two separate rules
-# to achieve OR logic.
+# NOTE: Graph API inbox rules AND conditions together, so we use
+# separate rules per condition type to achieve OR logic.
+#
+# Rules created:
+#   1. Sender-based    — no-reply, donotreply, marketing/vendor domains
+#   2. Subject-based   — newsletter, posted new, deals, register
+#   3. info@ alias     — emails sent to info@a-cto.com (junk alias)
+#   4. Unsubscribe     — body contains "unsubscribe"
 
 $tenantId = "f8ac75ce-d250-407e-b8cb-e05f5b4cd913"
 $appId = "11b1509b-d570-4d3a-b46e-032215808864"
@@ -18,25 +23,17 @@ Connect-MgGraph -ClientId $appId -TenantId $tenantId -CertificateThumbprint $thu
 Write-Host "Searching for Read Later folder..."
 $topFolders = Get-MgUserMailFolder -UserId $mailbox -All
 $readLaterFolder = $null
-
 foreach ($folder in $topFolders) {
     $children = Get-MgUserMailFolderChildFolder -UserId $mailbox -MailFolderId $folder.Id -All -ErrorAction SilentlyContinue
     foreach ($child in $children) {
-        if ($child.DisplayName -eq "Read Later") {
-            $readLaterFolder = $child
-            Write-Host "Found: $($folder.DisplayName) / $($child.DisplayName)"
-            break
-        }
+        if ($child.DisplayName -eq "Read Later") { $readLaterFolder = $child; break }
     }
     if ($readLaterFolder) { break }
 }
+if (-not $readLaterFolder) { Write-Error "Read Later folder not found"; exit 1 }
+Write-Host "Found folder: $($readLaterFolder.Id)"
 
-if (-not $readLaterFolder) {
-    Write-Error "Read Later folder not found"
-    exit 1
-}
-
-# Shared exceptions for both rules
+# Shared exceptions
 $exceptions = @{
     subjectContains = @("PAS", "MBC", "KDIT", "Bamert", "SOW", "invoice", "contract")
     sentOnlyToMe = $true
@@ -46,15 +43,14 @@ $exceptions = @{
 $existing = Get-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" | Where-Object { $_.DisplayName -like "Low Priority - Auto File*" }
 foreach ($r in $existing) {
     Remove-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -MessageRuleId $r.Id
-    Write-Host "Deleted existing rule: $($r.DisplayName)"
+    Write-Host "Deleted: $($r.DisplayName)"
 }
 
-# Rule 1: Sender-based (no-reply, newsletter domains, marketing, vendor spam)
+# Rule 1: Sender-based
 Write-Host "Creating sender rule..."
 New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyParameter @{
     displayName = "Low Priority - Auto File (Sender)"
-    sequence = 1
-    isEnabled = $true
+    sequence = 1; isEnabled = $true
     conditions = @{
         senderContains = @(
             "no-reply", "donotreply",
@@ -69,18 +65,35 @@ New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyPara
     actions = @{ moveToFolder = $readLaterFolder.Id }
 }
 
-# Rule 2: Subject-based (newsletter keywords)
+# Rule 2: Subject-based
 Write-Host "Creating subject rule..."
 New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyParameter @{
     displayName = "Low Priority - Auto File (Subject)"
-    sequence = 2
-    isEnabled = $true
-    conditions = @{
-        subjectContains = @("newsletter", "posted new", "deals", "register")
-    }
+    sequence = 2; isEnabled = $true
+    conditions = @{ subjectContains = @("newsletter", "posted new", "deals", "register") }
     exceptions = $exceptions
     actions = @{ moveToFolder = $readLaterFolder.Id }
 }
 
-Write-Host "`nDone! Verifying..."
+# Rule 3: info@ alias
+Write-Host "Creating info@ alias rule..."
+New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyParameter @{
+    displayName = "Low Priority - Auto File (info@ alias)"
+    sequence = 3; isEnabled = $true
+    conditions = @{ headerContains = @("info@a-cto.com") }
+    exceptions = $exceptions
+    actions = @{ moveToFolder = $readLaterFolder.Id }
+}
+
+# Rule 4: Unsubscribe in body
+Write-Host "Creating unsubscribe rule..."
+New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyParameter @{
+    displayName = "Low Priority - Auto File (Unsubscribe)"
+    sequence = 4; isEnabled = $true
+    conditions = @{ bodyContains = @("unsubscribe") }
+    exceptions = $exceptions
+    actions = @{ moveToFolder = $readLaterFolder.Id }
+}
+
+Write-Host "`nDone!"
 Get-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" | Where-Object { $_.DisplayName -like "Low Priority*" } | Format-Table DisplayName, IsEnabled, Sequence
