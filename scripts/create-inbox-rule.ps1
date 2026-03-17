@@ -49,14 +49,21 @@ foreach ($r in $existing) {
     Write-Host "Deleted existing rule: $($r.DisplayName)"
 }
 
-# Rule 1: Sender-based (no-reply, newsletter domains, social)
+# Rule 1: Sender-based (no-reply, newsletter domains, marketing, vendor spam)
 Write-Host "Creating sender rule..."
 New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyParameter @{
     displayName = "Low Priority - Auto File (Sender)"
     sequence = 1
     isEnabled = $true
     conditions = @{
-        senderContains = @("no-reply", "donotreply", "@substack.com", "@prospera.hn", "@zacks.com", "@lenovo.com", "@linkedin.com")
+        senderContains = @(
+            "no-reply", "donotreply",
+            "@substack.com", "@prospera.hn", "@zacks.com", "@lenovo.com", "@linkedin.com",
+            "@ecomm.lenovo.com", "@digital.costco.com", "@shop.tiktok.com",
+            "@zcm.zacks.com", "@rfpmart.com", "@campaign.eventbrite.com",
+            "@npmjs.com", "@emails.dailygopnews.com",
+            "@rightworks.com", "@enowsoftware.com"
+        )
     }
     exceptions = $exceptions
     actions = @{ moveToFolder = $readLaterFolder.Id }
