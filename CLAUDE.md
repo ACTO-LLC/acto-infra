@@ -40,15 +40,11 @@ The session does not persist between `pwsh -Command` invocations. When running m
 
 ## Service Principal Permission Limitations
 
-The service principal can **read** Exchange mailbox data (rules, folders, leases) but **cannot write** to individual mailboxes. Specifically:
+The service principal has **`full_access_as_app`** Exchange role, enabling both read and write operations on mailboxes via EXO PowerShell:
 
 - `Get-InboxRule`, `Get-Mailbox`, `Get-MailboxFolderStatistics` — **work**
-- `New-InboxRule`, `New-MailboxFolder` — **fail** with "Cannot open mailbox"
-- Graph API `/users/{id}/mailFolders` and `/messageRules` — **fail** with "ErrorAccessDenied"
-
-**Root cause:** The app registration lacks the `full_access_as_app` Exchange role and `Mail.ReadWrite` Graph permission. See [GitHub issue #12](../../issues/12) to track granting these.
-
-**Workaround:** For per-mailbox write operations (inbox rules, folder creation), generate the PowerShell command and have the user run it from their own authenticated session.
+- `New-InboxRule`, `New-MailboxFolder` — **work** (via EXO PowerShell)
+- Graph API `/users/{id}/mailFolders` and `/messageRules` — **fail** (needs `Mail.ReadWrite` Graph permission, requires Global Admin consent — see [#12](../../issues/12))
 
 ## Project Structure
 
