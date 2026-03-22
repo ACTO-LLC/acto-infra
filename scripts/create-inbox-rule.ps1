@@ -91,7 +91,7 @@ New-MgUserMailFolderMessageRule -UserId $mailbox -MailFolderId "Inbox" -BodyPara
     displayName = "Low Priority - Auto File (Unsubscribe)"
     sequence = 4; isEnabled = $true
     conditions = @{ bodyContains = @("unsubscribe") }
-    exceptions = $exceptions
+    exceptions = @{ subjectContains = $exceptions.subjectContains }
     actions = @{ moveToFolder = $readLaterFolder.Id }
 }
 
