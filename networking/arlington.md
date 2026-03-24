@@ -19,26 +19,36 @@ graph TD
     PRINTER["Epson Printer<br/>192.168.1.57"]
 
     LIFX["LIFX Bulb<br/>192.168.1.48"]
-    LIVINGROOM["Livingroom Device<br/>192.168.1.49"]
-    ESP["ESP Device<br/>192.168.1.74"]
+    ROKU["Roku<br/>192.168.1.49"]
+    ESP["Espressif IoT Device<br/>192.168.1.74"]
+    FIRESTICK["Amazon Firestick<br/>192.168.1.52"]
+    BEDROOM_TV["Vizio Bedroom TV<br/>192.168.1.87"]
+    LR_VIZIO["Vizio Living Room<br/>192.168.1.79"]
+    LR_FORMULER["Formuler Z10 (Living Room)<br/>192.168.1.123 (Ethernet)"]
+    OFF_FORMULER["Formuler Z10 (Office)<br/>192.168.8.14 (Mango WiFi)"]
 
     ISP --- MODEM
     MODEM -- "eth0 (WAN, DHCP)" --- EDGEMAX
     EDGEMAX -- "switch0 (eth1-eth4)" --- NETGEAR
 
     EDGEMAX -- "Ethernet<br/>192.168.1.106" --- DESKTOP
+    EDGEMAX -- "Ethernet<br/>192.168.1.123" --- LR_FORMULER
 
     NETGEAR -. "WiFi 5GHz<br/>192.168.1.187" .-> LAPTOP
     NETGEAR -. "WiFi" .-> PHONE
     NETGEAR -. "WiFi" .-> LIFX
-    NETGEAR -. "WiFi" .-> LIVINGROOM
+    NETGEAR -. "WiFi 2.4GHz" .-> ROKU
+    NETGEAR -. "WiFi 2.4GHz" .-> FIRESTICK
     NETGEAR -. "WiFi" .-> ESP
     NETGEAR -. "WiFi" .-> PRINTER
+    NETGEAR -. "WiFi" .-> BEDROOM_TV
+    NETGEAR -. "WiFi" .-> LR_VIZIO
 
     NETGEAR -- "Ethernet (WAN)" --- MANGO
     MANGO -. "WiFi (2.4GHz)" .-> LAPTOP
     MANGO -. "WiFi (2.4GHz)" .-> WATCH
     MANGO -. "WiFi (2.4GHz)" .-> DESKTOP
+    MANGO -. "WiFi (2.4GHz)" .-> OFF_FORMULER
 
     style ISP fill:#e8e8e8,stroke:#333,color:#000
     style MODEM fill:#f5f5dc,stroke:#333,color:#000
@@ -51,8 +61,13 @@ graph TD
     style WATCH fill:#d4a0d4,stroke:#333,color:#000
     style PRINTER fill:#f5f5dc,stroke:#333,color:#000
     style LIFX fill:#f5d060,stroke:#333,color:#000
-    style LIVINGROOM fill:#f5d060,stroke:#333,color:#000
+    style ROKU fill:#f5d060,stroke:#333,color:#000
     style ESP fill:#f5d060,stroke:#333,color:#000
+    style FIRESTICK fill:#f5d060,stroke:#333,color:#000
+    style BEDROOM_TV fill:#f5d060,stroke:#333,color:#000
+    style LR_VIZIO fill:#f5d060,stroke:#333,color:#000
+    style LR_FORMULER fill:#c0a0e0,stroke:#333,color:#000
+    style OFF_FORMULER fill:#c0a0e0,stroke:#333,color:#000
 ```
 
 > **Note:** Solid lines represent wired (Ethernet) connections. Dashed lines represent WiFi connections. The GL.iNet Mango resolves AP isolation issues on the Netgear R7000P.
@@ -92,30 +107,35 @@ graph TD
 | GL-MT300N-V2 | 192.168.1.50 | 94:83:C4:86:89:17 |
 | bedroom-tv | 192.168.1.87 | 0C:8B:7D:B6:7C:59 |
 
-## DHCP Leases (Current)
+## Known Devices (EdgeRouter Network)
 
-| IP Address | Hostname | MAC Address | Notes |
-|------------|----------|-------------|-------|
-| 192.168.1.42 | DESKTOP-J6LTNGH | 40:8D:5C:5E:FC:09 | Static mapping |
-| 192.168.1.47 | R7000P | 28:80:88:1F:61:FA | Netgear AP |
-| 192.168.1.50 | GL-MT300N-V2 | 94:83:C4:86:89:17 | Mango travel router (static mapping) |
-| 192.168.1.48 | LIFX Bulb | D0:73:D5:00:6D:22 | Smart light |
-| 192.168.1.49 | Livingroom | C8:3A:6B:AA:B3:68 | IoT device |
-| 192.168.1.52 | -- | AC:63:BE:11:ED:DE | Unknown |
-| 192.168.1.57 | EPSON5FDDDF | B0:E8:92:5F:DD:DF | Epson printer |
-| 192.168.1.65 | iPhone | 56:A5:28:50:9C:50 | iPhone |
-| 192.168.1.74 | ESP_00A606 | B8:F0:09:00:A6:06 | ESP/IoT device |
-| 192.168.1.79 | -- | 2C:64:1F:B5:D3:E8 | Unknown |
-| 192.168.1.87 | bedroom-tv | 0C:8B:7D:B6:7C:59 | Vizio TV (static mapping) |
-| 192.168.1.97 | Eric-s-S22 | C6:6A:65:D6:D9:EA | Samsung S22 |
-| 192.168.1.106 | EH-HP-DT-01 | 48:9E:BD:A0:4F:FF | Desktop (Ethernet) |
-| 192.168.1.107 | EH-HP-DT-01 | 38:D5:7A:8A:C5:77 | Desktop (WiFi) |
-| 192.168.1.123 | -- | 68:4E:05:7A:91:1A | Unknown |
-| 192.168.1.165 | Formuler-Z10 | 5C:C5:63:F1:B7:26 | Formuler Z10 streaming box |
-| 192.168.1.182 | -- | CC:95:D7:AB:65:71 | Unknown |
-| 192.168.1.187 | hplt-001 | 58:02:05:47:B3:4A | HP Laptop |
-| 192.168.1.188 | -- | 28:24:C9:64:54:DC | Unknown |
-| 192.168.1.191 | -- | AE:82:46:AF:C4:AC | Unknown |
+| IP Address | Hostname | MAC Address | Vendor | Device | Connection |
+|------------|----------|-------------|--------|--------|------------|
+| 192.168.1.42 | DESKTOP-J6LTNGH | 40:8D:5C:5E:FC:09 | -- | Old desktop (static mapping) | -- |
+| 192.168.1.47 | R7000P | 28:80:88:1F:61:FA | Netgear | Netgear R7000P AP | Ethernet |
+| 192.168.1.48 | LIFX Bulb | D0:73:D5:00:6D:22 | LIFI Labs | Smart light bulb | Netgear WiFi 2.4G |
+| 192.168.1.49 | Livingroom | C8:3A:6B:AA:B3:68 | Roku | Roku streaming player | Netgear WiFi 2.4G |
+| 192.168.1.50 | GL-MT300N-V2 | 94:83:C4:86:89:17 | GL Technologies | Mango travel router (static) | Ethernet via Netgear |
+| 192.168.1.52 | -- | AC:63:BE:11:ED:DE | Amazon | Amazon Firestick | Netgear WiFi 2.4G |
+| 192.168.1.57 | EPSON5FDDDF | B0:E8:92:5F:DD:DF | Seiko Epson | Epson printer | Netgear WiFi 2.4G |
+| 192.168.1.65 | iPhone | 56:A5:28:50:9C:50 | *(randomized MAC)* | iPhone | Netgear WiFi 2.4G |
+| 192.168.1.74 | ESP_00A606 | B8:F0:09:00:A6:06 | Espressif | IoT device (smart plug?) | Netgear WiFi 2.4G |
+| 192.168.1.79 | -- | 2C:64:1F:B5:D3:E8 | Vizio | Vizio TV (living room) | Netgear WiFi 2.4G |
+| 192.168.1.87 | bedroom-tv | 0C:8B:7D:B6:7C:59 | Vizio | Vizio TV (bedroom, static) | Netgear WiFi 2.4G |
+| 192.168.1.97 | Eric-s-S22 | C6:6A:65:D6:D9:EA | *(randomized MAC)* | Samsung S22 | Netgear WiFi |
+| 192.168.1.106 | EH-HP-DT-01 | 48:9E:BD:A0:4F:FF | HP | HP Pavilion Desktop | Ethernet |
+| 192.168.1.107 | EH-HP-DT-01 | 38:D5:7A:8A:C5:77 | Foxconn/Cloud Network | HP Desktop (WiFi adapter) | Netgear WiFi |
+| 192.168.1.123 | -- | 68:4E:05:7A:91:1A | FN-LINK | Formuler Z10 (living room) | Ethernet |
+| 192.168.1.165 | Formuler-Z10 | 5C:C5:63:F1:B7:26 | FN-LINK | Formuler Z10 (office) — stale | *(was Netgear WiFi, now Mango only)* |
+| 192.168.1.182 | -- | CC:95:D7:AB:65:71 | Vizio | Vizio TV (third?) | Netgear WiFi |
+| 192.168.1.187 | hplt-001 | 58:02:05:47:B3:4A | AzureWave | HP Laptop | Netgear WiFi 5G |
+| 192.168.1.188 | -- | 28:24:C9:64:54:DC | Amazon | Amazon device (Echo?) | Netgear WiFi |
+| 192.168.1.191 | -- | AE:82:46:AF:C4:AC | *(randomized MAC)* | Unknown mobile device | Netgear WiFi |
+| 192.168.1.192 | -- | 46:A8:0D:CD:A4:96 | *(randomized MAC)* | Unknown mobile device | Netgear WiFi |
+| 192.168.1.62 | -- | 14:2D:27:9B:82:9E | Hon Hai/Foxconn | Unknown | -- |
+| 192.168.1.82 | -- | AC:82:47:4E:D5:4F | Intel | Unknown | -- |
+| 192.168.1.159 | -- | F8:E4:3B:88:6C:E6 | ASIX Electronics | USB Ethernet adapter | -- |
+| 192.168.1.38 | -- | 00:05:1B:A1:E4:6C | Magic Control Technology | Unknown | -- |
 
 ## Netgear R7000P (Access Point)
 
@@ -152,7 +172,16 @@ graph TD
 | hplt-001 | 192.168.8.11 | 58:02:05:47:B3:4A |
 | Eric-s-S22 | 192.168.8.12 | AA:3F:CA:4E:60:6D |
 | SM-L315U (Watch) | 192.168.8.13 | 8E:52:5F:EF:B4:6F |
-| Formuler-Z10 | 192.168.8.14 | 5C:C5:63:F1:B7:26 |
+| Formuler-Z10 (Office) | 192.168.8.14 | 5C:C5:63:F1:B7:26 |
+
+## Formuler Z10 Streaming Boxes
+
+Two Formuler Z10 units, both using FN-LINK WiFi modules (different OUI prefixes from different production batches).
+
+| Location | MAC | Primary Connection | Network IP |
+|----------|-----|-------------------|------------|
+| Office | 5C:C5:63:F1:B7:26 | Mango WiFi (2.4GHz) | 192.168.8.14 |
+| Living Room | 68:4E:05:7A:91:1A | Ethernet to EdgeRouter | 192.168.1.123 |
 
 ## Desktop Details (EH-HP-DT-01)
 

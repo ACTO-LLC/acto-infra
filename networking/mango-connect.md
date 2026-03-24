@@ -5,7 +5,7 @@
 | Property | Value |
 |----------|-------|
 | SSID | GL-MT300N-V2-917 |
-| Password | mangorouter |
+| Password | *(see password manager — changed 2026-03-23)* |
 | Security | WPA2-PSK |
 | Band | 2.4GHz |
 
