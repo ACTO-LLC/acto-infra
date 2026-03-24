@@ -162,7 +162,7 @@ graph TD
 | Management | http://192.168.8.1 (from LAN side) |
 | SSH | Port 22 (root, from LAN side) |
 | Uplink | Ethernet to Netgear R7000P (passes through to EdgeRouter) |
-| Purpose | Workaround for Netgear AP client isolation — devices needing local communication connect here |
+| Purpose | Temporary workaround for Netgear AP client isolation during development, testing, and debugging sessions (e.g., Watch-to-Laptop pairing, Formuler-to-Laptop remote debugging). Not intended as a primary network — devices should use the Netgear/EdgeRouter network for normal operation. |
 
 ### Mango Static DHCP Mappings
 
@@ -218,7 +218,7 @@ Two Formuler Z10 units, both using FN-LINK WiFi modules (different OUI prefixes 
 ### ~~Netgear R7000P AP/Client Isolation~~ (Resolved)
 The R7000P enforces WiFi client isolation with no exposed setting to disable it. This prevented WiFi-to-WiFi device communication (RDP, remote debugging, Samsung Watch discovery).
 
-**Resolution:** GL.iNet GL-MT300N-V2 (Mango) travel router deployed at 192.168.1.50, connected via Ethernet through the Netgear to the EdgeRouter. Devices needing local communication connect to the Mango's WiFi (GL-MT300N-V2-917) instead.
+**Resolution:** GL.iNet GL-MT300N-V2 (Mango) travel router deployed at 192.168.1.50, connected via Ethernet through the Netgear to the EdgeRouter. Devices that need to communicate locally (e.g., Watch pairing, Formuler remote debugging, RDP over WiFi) temporarily connect to the Mango's WiFi (GL-MT300N-V2-917) during development/testing sessions. Devices should return to the Netgear/EdgeRouter network for normal day-to-day use.
 
 ### WiFi Network Profile
 When the desktop connects via WiFi, Windows may classify the connection as **Public**, which blocks inbound RDP. Fix:
