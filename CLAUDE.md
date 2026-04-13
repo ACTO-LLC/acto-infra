@@ -47,8 +47,36 @@ The service principal has the following permissions for mailbox operations:
 
 **Important:** EXO PowerShell write commands (`New-InboxRule -Mailbox`) do NOT work because `ApplicationImpersonation` is deprecated. Use **Graph API** (via `Microsoft.Graph.Mail` module) for mailbox write operations instead. See `scripts/create-inbox-rule.ps1` for an example.
 
+## Dev VM (Remote Commands)
+
+When you need to run commands on the dev VM (e.g. Docker, checking services, managing projects), SSH in using:
+
+```bash
+ssh -i ~/.ssh/ehalsey-dev01-vm_key.pem ehalsey@ehalsey-dev01.westus2.cloudapp.azure.com "<command>"
+```
+
+Key facts:
+- **Host:** `ehalsey-dev01.westus2.cloudapp.azure.com` (static IP: `4.154.42.33`)
+- **User:** `ehalsey`
+- **Key:** `~/.ssh/ehalsey-dev01-vm_key.pem`
+- **OS:** Ubuntu Pro 24.04 LTS
+- **Projects live on:** `/mnt/data/projects/`
+- **Docker data:** `/mnt/data/docker-volumes/`
+- **OpenEMR:** `/mnt/data/openemr/`
+- **Subscription:** Microsoft Azure Sponsorship (`d487e16b-c758-4893-b0e9-a77c6e02e5f3`)
+- **Resource Group:** `EHALSEY-DEV01-RG`
+- **Key Vault:** `acto-infra-kv` (SSH key backed up as secret `ehalsey-dev01-vm-ssh-key`)
+
+For multi-command operations, chain in a single SSH call or use `bash -s <<'REMOTE' ... REMOTE` to avoid session loss between invocations.
+
+The VM auto-shuts down at 8 PM UTC. To start it:
+```bash
+az vm start -g EHALSEY-DEV01-RG -n ehalsey-dev01-vm --subscription "d487e16b-c758-4893-b0e9-a77c6e02e5f3"
+```
+
 ## Project Structure
 
 - `teams-voice/` — Teams Phone System config (auto attendants, call queues, voice routing)
 - `teams-voice/docs/` — Documentation for voice setup, agent guides, automation
 - `azure-avd-devbox/` — Azure Virtual Desktop and Dev Box configuration
+- `azure-dev-vm/` — Ubuntu dev VM Bicep template and setup scripts

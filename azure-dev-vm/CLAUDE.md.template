@@ -1,0 +1,33 @@
+# CLAUDE.md — Dev VM Project Template
+
+Copy this file to `/mnt/data/projects/<your-project>/CLAUDE.md` and customize for each project.
+
+---
+
+## Environment
+
+This project runs on an Azure Ubuntu dev VM.
+
+- **OS:** Ubuntu Pro 24.04 LTS
+- **VM:** Standard_D16s_v5 (16 vCPU / 64 GB RAM)
+- **Docker:** Available (Docker CE + Compose). Use `docker compose` (not `docker-compose`).
+- **Disk layout:**
+  - `/` — 30 GB OS disk (don't store project files here)
+  - `/mnt/data/` — 512 GB Premium SSD (all projects, Docker volumes, data)
+
+## Working directories
+
+- **Projects:** `/mnt/data/projects/`
+- **Docker volumes:** `/mnt/data/docker-volumes/`
+- **OpenEMR:** `/mnt/data/openemr/`
+
+## Conventions
+
+- All services run as Docker containers. Prefer `docker compose` over installing runtimes directly on the host.
+- Use `/mnt/data/docker-volumes/` for persistent database storage, not Docker anonymous volumes.
+- The VM auto-shuts down at 8 PM UTC daily. Running containers will be stopped. Use `restart: unless-stopped` in compose files for services that should auto-resume.
+
+## Infrastructure repo
+
+The VM's Bicep template and setup scripts live in the `acto-infra` repo:
+https://github.com/ACTO-LLC/acto-infra/tree/main/azure-dev-vm
