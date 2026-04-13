@@ -38,6 +38,11 @@ param dnsLabel string = 'ehalsey-dev01'
 @description('Auto-shutdown time in 24h format (HHMM), UTC')
 param autoShutdownTime string = '2000'
 
+@description('Allowed source IP addresses for SSH (CIDR or single IP)')
+param allowedSshSources array = [
+  '98.147.230.90'
+]
+
 @description('Resource tags')
 param tags object = {
   client: 'acto'
@@ -70,7 +75,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
           direction: 'Inbound'
           access: 'Allow'
           protocol: 'Tcp'
-          sourceAddressPrefix: '*'
+          sourceAddressPrefixes: allowedSshSources
           sourcePortRange: '*'
           destinationAddressPrefix: '*'
           destinationPortRange: '22'
