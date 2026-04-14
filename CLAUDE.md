@@ -69,10 +69,16 @@ Key facts:
 
 For multi-command operations, chain in a single SSH call or use `bash -s <<'REMOTE' ... REMOTE` to avoid session loss between invocations.
 
-The VM auto-shuts down at 8 PM UTC. To start it:
+The VM auto-shuts down at **7 PM Pacific Time** (handles PST/PDT automatically).
+
+To start it normally:
 ```bash
 az vm start -g EHALSEY-DEV01-RG -n ehalsey-dev01-vm --subscription "d487e16b-c758-4893-b0e9-a77c6e02e5f3"
 ```
+
+For extended downtime, use the disk-swap scripts in `azure-dev-vm/scripts/` to save on storage costs (~$56/mo):
+- `stop-and-downgrade-disks.ps1` — deallocate VM + downgrade disks to Standard
+- `start-and-upgrade-disks.ps1` — restore Premium SSD + start VM
 
 ## Project Structure
 

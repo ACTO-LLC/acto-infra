@@ -35,8 +35,11 @@ param subnetAddressPrefix string = '10.0.0.0/24'
 @description('DNS label for the public IP (results in <label>.<region>.cloudapp.azure.com)')
 param dnsLabel string = 'ehalsey-dev01'
 
-@description('Auto-shutdown time in 24h format (HHMM), UTC')
-param autoShutdownTime string = '2000'
+@description('Auto-shutdown time in 24h format (HHMM)')
+param autoShutdownTime string = '1900'
+
+@description('Auto-shutdown time zone (Windows time zone ID — e.g. "Pacific Standard Time" auto-handles DST)')
+param autoShutdownTimeZone string = 'Pacific Standard Time'
 
 @description('Allowed source IP addresses for SSH (CIDR or single IP)')
 param allowedSshSources array = [
@@ -273,7 +276,7 @@ resource autoShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     dailyRecurrence: {
       time: autoShutdownTime
     }
-    timeZoneId: 'UTC'
+    timeZoneId: autoShutdownTimeZone
     targetResourceId: vm.id
   }
 }

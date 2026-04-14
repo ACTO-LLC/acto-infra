@@ -25,6 +25,20 @@ Override defaults:
     -ResourceGroupName "DEV02-RG"
 ```
 
+## Cost-saving disk swap
+
+When the VM will be off for an extended period, downgrade the disks to cheaper SKUs:
+
+```powershell
+# Stop VM and downgrade: Premium SSD -> Standard SSD (OS) + Standard HDD (data)
+.\scripts\stop-and-downgrade-disks.ps1
+
+# Restore Premium SSD and start the VM
+.\scripts\start-and-upgrade-disks.ps1
+```
+
+Saves ~$56/mo in storage when stopped. Trusted Launch requires SSD for OS disk, so OS disk goes to Standard SSD (not HDD).
+
 ## Post-deploy setup
 
 SSH into the VM and run:
