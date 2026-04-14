@@ -41,6 +41,12 @@ param autoShutdownTime string = '1900'
 @description('Auto-shutdown time zone (Windows time zone ID — e.g. "Pacific Standard Time" auto-handles DST)')
 param autoShutdownTimeZone string = 'Pacific Standard Time'
 
+@description('Email for auto-shutdown notifications (set empty string to disable)')
+param autoShutdownNotificationEmail string = 'ehalsey@a-cto.com'
+
+@description('Minutes before shutdown to send notification')
+param autoShutdownNotificationMinutes int = 30
+
 @description('Allowed source IP addresses for SSH (CIDR or single IP)')
 param allowedSshSources array = [
   '98.147.230.90'
@@ -278,6 +284,15 @@ resource autoShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     }
     timeZoneId: autoShutdownTimeZone
     targetResourceId: vm.id
+    notificationSettings: empty(autoShutdownNotificationEmail) ? {
+      status: 'Disabled'
+      timeInMinutes: 0
+    } : {
+      status: 'Enabled'
+      timeInMinutes: autoShutdownNotificationMinutes
+      emailRecipient: autoShutdownNotificationEmail
+      notificationLocale: 'en'
+    }
   }
 }
 
